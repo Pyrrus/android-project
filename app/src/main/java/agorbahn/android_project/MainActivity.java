@@ -5,14 +5,58 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+    @Bind(R.id.listView) GridView mListTask;
+    private ArrayList<String> mTaskInfo = new ArrayList<String>(Arrays.asList(
+            "Need to do research for the make best app using api.",
+            "Need to clear the 175 sq. feet place",
+            "Build app using java and other tools"
+    ));
+    private ArrayList<String> mTask = new ArrayList<String>(Arrays.asList(
+            "Homework",
+            "Cleaning",
+            "Make the App"
+    ));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        Intent mIntent = getIntent();
+        if (mIntent.getStringArrayListExtra("taskList") != null) {
+            mTask = mIntent.getStringArrayListExtra("taskList");
+            mTaskInfo = mIntent.getStringArrayListExtra("taskInfo");
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mTask);
+
+        mListTask.setAdapter(adapter);
+        mListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(MainActivity.this, TaskActivity.class);
+                myIntent.putExtra("taskInfo", mTaskInfo.get(position));
+                myIntent.putExtra("title", mTask.get(position));
+                myIntent.putExtra("taskList", mTask);
+                myIntent.putExtra("infoList", mTaskInfo);
+                startActivity(myIntent);
+            }
+        });
+
     }
 
     @Override
