@@ -11,6 +11,21 @@
     tools:context="agorbahn.android_project.AddActivity">
 
     <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/addDoc"
+        android:hint="Enter Doctor Name"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
@@ -46,21 +61,6 @@
         android:layout_alignParentTop="true"
         android:textSize="36sp"
         android:textColor="@color/primaryText"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/addDoc"
-        android:hint="Enter Doctor Name"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>
