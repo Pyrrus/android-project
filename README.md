@@ -42,6 +42,7 @@ Type in the text fields for the Doctor infortion. click on 'Add Doctor' | will m
 
 if using Android 2.1
 * Disable instant run in setting -> Build, Execution, Deployment -> remove all checkbox
+* then Build -> clean project
 
 ## Technologies Used
 
