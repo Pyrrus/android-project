@@ -5,12 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -28,6 +31,32 @@ public class AddActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         mDoctor = myIntent.getStringArrayListExtra("doctorList");
         mDoctorInfo = myIntent.getStringArrayListExtra("infoList");
+        ButterKnife.bind(this);
+
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String output = "";
+                if (mAddDoc.getText().toString().equals("")) {
+                    output += "Need to add name for Doctor\n";
+                }
+
+                if (mInformation.getText().toString().equals("")) {
+                    output += "Need to add information for Doctor";
+                }
+
+                if (output.equals("")) {
+                    mDoctor.add(mAddDoc.getText().toString());
+                    mDoctorInfo.add(mInformation.getText().toString());
+                    Intent myIntent = new Intent(AddActivity.this, MainActivity.class);
+                    myIntent.putExtra("doctorList", mDoctor);
+                    myIntent.putExtra("infoList", mDoctorInfo);
+                    startActivity(myIntent);
+                } else {
+                    Toast.makeText(AddActivity.this, output, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
