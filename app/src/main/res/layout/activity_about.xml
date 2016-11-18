@@ -10,4 +10,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="agorbahn.android_project.AboutActivity">
 
+    <TextView
+        android:text="About the us:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/about"
+        android:textSize="36sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="This app made for help people to find the doctor. you can add and remove doctor."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView3" />
 </RelativeLayout>

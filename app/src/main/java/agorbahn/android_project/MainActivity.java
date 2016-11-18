@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Intent mIntent = getIntent();
         if (mIntent.getStringArrayListExtra("doctorList") != null) {
             mDoctor = mIntent.getStringArrayListExtra("doctorList");
-            mDoctorInfo = mIntent.getStringArrayListExtra("doctorInfo");
+            mDoctorInfo = mIntent.getStringArrayListExtra("infoList");
         }
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mDoctor);
