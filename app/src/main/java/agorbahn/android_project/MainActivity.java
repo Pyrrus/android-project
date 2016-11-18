@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,16 +17,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    @Bind(R.id.listView) GridView mListTask;
-    private ArrayList<String> mTaskInfo = new ArrayList<String>(Arrays.asList(
-            "Need to do research for the make best app using api.",
-            "Need to clear the 175 sq. feet place",
-            "Build app using java and other tools"
+    @Bind(R.id.listView) GridView mList;
+    private ArrayList<String> mDoctorInfo = new ArrayList<String>(Arrays.asList(
+            "Doctor Strange is a skilled athlete and martial artist with substantial medical and magical knowledge. Though an expert surgeon, Strange's nerve-damaged hands prevent him from performing surgery except when supplemented by magic.",
+            "Doctor Fate is a legacy of heroes in the realm of magic who act as agents of the Lords of Order in the battle against chaos, using the powerful Amulet of Anubis, Cloak of Destiny and Helmet of Fate. "
     ));
-    private ArrayList<String> mTask = new ArrayList<String>(Arrays.asList(
-            "Homework",
-            "Cleaning",
-            "Make the App"
+    private ArrayList<String> mDoctor = new ArrayList<String>(Arrays.asList(
+            "Doctor Strange",
+            "Doctor Fate"
     ));
 
     @Override
@@ -37,22 +33,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Intent mIntent = getIntent();
-        if (mIntent.getStringArrayListExtra("taskList") != null) {
-            mTask = mIntent.getStringArrayListExtra("taskList");
-            mTaskInfo = mIntent.getStringArrayListExtra("taskInfo");
+        if (mIntent.getStringArrayListExtra("doctorList") != null) {
+            mDoctor = mIntent.getStringArrayListExtra("doctorList");
+            mDoctorInfo = mIntent.getStringArrayListExtra("doctorInfo");
         }
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mTask);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mDoctor);
 
-        mListTask.setAdapter(adapter);
-        mListTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mList.setAdapter(adapter);
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MainActivity.this, TaskActivity.class);
-                myIntent.putExtra("taskInfo", mTaskInfo.get(position));
-                myIntent.putExtra("title", mTask.get(position));
-                myIntent.putExtra("taskList", mTask);
-                myIntent.putExtra("infoList", mTaskInfo);
+                Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
+                myIntent.putExtra("doctorInfo", mDoctorInfo.get(position));
+                myIntent.putExtra("title", mDoctor.get(position));
+                myIntent.putExtra("doctorList", mDoctor);
+                myIntent.putExtra("infoList", mDoctorInfo);
                 startActivity(myIntent);
             }
         });
@@ -67,14 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent myIntent;
         switch (item.getItemId()){
             case R.id.itemMain:
-                startActivity(new Intent(MainActivity.this,MainActivity.class));
-                Toast.makeText(getApplicationContext(),"Home selected",Toast.LENGTH_LONG).show();
+                myIntent = new Intent(MainActivity.this, MainActivity.class);
+                myIntent.putExtra("doctorList", mDoctor);
+                myIntent.putExtra("infoList", mDoctorInfo);
+                startActivity(myIntent);
                 return true;
             case R.id.itemAdd:
-                startActivity(new Intent(MainActivity.this,AddActivity.class));
-                Toast.makeText(getApplicationContext(),"Home selected",Toast.LENGTH_LONG).show();
+                myIntent = new Intent(MainActivity.this, AddActivity.class);
+                myIntent.putExtra("doctorList", mDoctor);
+                myIntent.putExtra("infoList", mDoctorInfo);
+                startActivity(myIntent);
+                return true;
+            case R.id.itemAbout:
+                myIntent = new Intent(MainActivity.this, AboutActivity.class);
+                myIntent.putExtra("doctorList", mDoctor);
+                myIntent.putExtra("infoList", mDoctorInfo);
+                startActivity(myIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

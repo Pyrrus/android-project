@@ -10,4 +10,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="agorbahn.android_project.AddActivity">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:id="@+id/addDoc"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Enter Doctor Name"
+        android:singleLine="true"
+        android:maxLines="1"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Enter Doctor Information"
+        android:ems="10"
+        android:layout_below="@+id/addDoc"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/Information"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/submitAdd" />
+
+    <Button
+        android:text="Add Doctor"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/submitAdd"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
