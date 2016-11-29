@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Bind(R.id.submitAdd) Button mAddButton;
     @Bind(R.id.Information) EditText mInformation;
@@ -33,30 +33,7 @@ public class AddActivity extends AppCompatActivity {
         mDoctorInfo = myIntent.getStringArrayListExtra("infoList");
         ButterKnife.bind(this);
 
-        mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String output = "";
-                if (mAddDoc.getText().toString().equals("")) {
-                    output += "Need to add name for Doctor\n";
-                }
-
-                if (mInformation.getText().toString().equals("")) {
-                    output += "Need to add information for Doctor";
-                }
-
-                if (output.equals("")) {
-                    mDoctor.add(mAddDoc.getText().toString());
-                    mDoctorInfo.add(mInformation.getText().toString());
-                    Intent myIntent = new Intent(AddActivity.this, MainActivity.class);
-                    myIntent.putExtra("doctorList", mDoctor);
-                    myIntent.putExtra("infoList", mDoctorInfo);
-                    startActivity(myIntent);
-                } else {
-                    Toast.makeText(AddActivity.this, output, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mAddButton.setOnClickListener(this);
     }
 
     @Override
@@ -89,5 +66,28 @@ public class AddActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        String output = "";
+        if (mAddDoc.getText().toString().equals("")) {
+            output += "Need to add name for Doctor\n";
+        }
+
+        if (mInformation.getText().toString().equals("")) {
+            output += "Need to add information for Doctor";
+        }
+
+        if (output.equals("")) {
+            mDoctor.add(mAddDoc.getText().toString());
+            mDoctorInfo.add(mInformation.getText().toString());
+            Intent myIntent = new Intent(AddActivity.this, MainActivity.class);
+            myIntent.putExtra("doctorList", mDoctor);
+            myIntent.putExtra("infoList", mDoctorInfo);
+            startActivity(myIntent);
+        } else {
+            Toast.makeText(AddActivity.this, output, Toast.LENGTH_SHORT).show();
+        }
     }
 }
