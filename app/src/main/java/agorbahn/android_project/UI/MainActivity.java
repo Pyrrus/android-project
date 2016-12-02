@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import agorbahn.android_project.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -81,9 +82,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         if (output.equals("")) {
             Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
-            myIntent.putExtra("place", codes[mState.getSelectedItemPosition()] + "-" + mEdit);
-//            startActivity(myIntent);
-            Toast.makeText(MainActivity.this, codes[mState.getSelectedItemPosition()].toLowerCase() + "-" + mEdit.getText().toString().toLowerCase(), Toast.LENGTH_SHORT).show();
+            myIntent.putExtra("place", codes[mState.getSelectedItemPosition()].toLowerCase() + "-" + mEdit.getText().toString().toLowerCase());
+            startActivity(myIntent);
         } else {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
