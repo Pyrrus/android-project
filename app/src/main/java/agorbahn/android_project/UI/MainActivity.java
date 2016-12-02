@@ -6,27 +6,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import agorbahn.android_project.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
-    @Bind(R.id.listView) GridView mList;
-    private ArrayList<String> mDoctorInfo = new ArrayList<String>(Arrays.asList(
-            "Doctor Strange is a skilled athlete and martial artist with substantial medical and magical knowledge. Though an expert surgeon, Strange's nerve-damaged hands prevent him from performing surgery except when supplemented by magic.",
-            "Doctor Fate is a legacy of heroes in the realm of magic who act as agents of the Lords of Order in the battle against chaos, using the powerful Amulet of Anubis, Cloak of Destiny and Helmet of Fate. "
-    ));
-    private ArrayList<String> mDoctor = new ArrayList<String>(Arrays.asList(
-            "Doctor Strange",
-            "Doctor Fate"
-    ));
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
+
+    @Bind(R.id.spinner) Spinner mState;
+    @Bind(R.id.City) EditText mEdit;
+    @Bind(R.id.findDoctor) Button mButton;
+    private String[] states;
+    private String[] codes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,25 +30,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Intent mIntent = getIntent();
-        if (mIntent.getStringArrayListExtra("doctorList") != null) {
-            mDoctor = mIntent.getStringArrayListExtra("doctorList");
-            mDoctorInfo = mIntent.getStringArrayListExtra("infoList");
-        }
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mDoctor);
+        states = getResources().getStringArray(R.array.states_array);
+        codes = getResources().getStringArray(R.array.state_postal);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, states);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mState.setAdapter(dataAdapter);
 
-        mList.setAdapter(adapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
-                myIntent.putExtra("doctorInfo", mDoctorInfo.get(position));
-                myIntent.putExtra("title", mDoctor.get(position));
-                myIntent.putExtra("doctorList", mDoctor);
-                myIntent.putExtra("infoList", mDoctorInfo);
-                startActivity(myIntent);
-            }
-        });
+        mButton.setOnClickListener(this);
 
     }
 
@@ -68,24 +54,39 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.itemMain:
                 myIntent = new Intent(MainActivity.this, MainActivity.class);
-                myIntent.putExtra("doctorList", mDoctor);
-                myIntent.putExtra("infoList", mDoctorInfo);
                 startActivity(myIntent);
                 return true;
             case R.id.itemAdd:
                 myIntent = new Intent(MainActivity.this, AddActivity.class);
-                myIntent.putExtra("doctorList", mDoctor);
-                myIntent.putExtra("infoList", mDoctorInfo);
                 startActivity(myIntent);
                 return true;
             case R.id.itemAbout:
                 myIntent = new Intent(MainActivity.this, AboutActivity.class);
-                myIntent.putExtra("doctorList", mDoctor);
-                myIntent.putExtra("infoList", mDoctorInfo);
                 startActivity(myIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        String output = "";
+        if (mEdit.getText().toString().equals("")) {
+            output += "Need to add City\n";
+        }
+
+        if (mState.getSelectedItem().toString().equals("")) {
+            output += "Need to pick state";
+        }
+
+        if (output.equals("")) {
+            Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
+            myIntent.putExtra("place", codes[mState.getSelectedItemPosition()] + "-" + mEdit);
+//            startActivity(myIntent);
+            Toast.makeText(MainActivity.this, codes[mState.getSelectedItemPosition()].toLowerCase() + "-" + mEdit.getText().toString().toLowerCase(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
