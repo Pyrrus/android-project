@@ -6,10 +6,6 @@
         android:id="@+id/itemMain"
         optionmenu:showAsAction="ifRoom"></item>
     <item
-        android:title="Add"
-        android:id="@+id/itemAdd"
-        optionmenu:showAsAction="ifRoom"></item>
-    <item
         android:title="About"
         android:id="@+id/itemAbout"
         optionmenu:showAsAction="ifRoom"></item>

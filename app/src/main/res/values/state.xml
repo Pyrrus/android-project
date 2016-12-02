@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="states_array">
-        <item></item>
+        <item>Pick a State</item>
         <item>Alabama</item>
         <item>Alaska</item>
         <item>Arizona</item>

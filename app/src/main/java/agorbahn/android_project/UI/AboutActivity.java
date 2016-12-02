@@ -40,12 +40,6 @@ public class AboutActivity extends AppCompatActivity {
                 myIntent.putExtra("infoList", mDoctorInfo);
                 startActivity(myIntent);
                 return true;
-            case R.id.itemAdd:
-                myIntent = new Intent(AboutActivity.this, AddActivity.class);
-                myIntent.putExtra("doctorList", mDoctor);
-                myIntent.putExtra("infoList", mDoctorInfo);
-                startActivity(myIntent);
-                return true;
             case R.id.itemAbout:
                 myIntent = new Intent(AboutActivity.this, AboutActivity.class);
                 myIntent.putExtra("doctorList", mDoctor);

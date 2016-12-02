@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 myIntent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(myIntent);
                 return true;
-            case R.id.itemAdd:
-                myIntent = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(myIntent);
-                return true;
             case R.id.itemAbout:
                 myIntent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(myIntent);
@@ -76,7 +72,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             output += "Need to add City\n";
         }
 
-        if (mState.getSelectedItem().toString().equals("")) {
+        if (mState.getSelectedItem().toString().equals("Pick a State")) {
             output += "Need to pick state";
         }
 
