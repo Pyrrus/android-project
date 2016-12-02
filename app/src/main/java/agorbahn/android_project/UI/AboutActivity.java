@@ -1,4 +1,4 @@
-package agorbahn.android_project;
+package agorbahn.android_project.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+
+import agorbahn.android_project.R;
 
 public class AboutActivity extends AppCompatActivity {
     private ArrayList<String> mDoctor = new ArrayList<String>();

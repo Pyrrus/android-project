@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="agorbahn.android_project.AboutActivity">
+    tools:context="agorbahn.android_project.ui.AboutActivity">
 
     <TextView
         android:text="About the us:"
