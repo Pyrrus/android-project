@@ -18,7 +18,7 @@ import agorbahn.android_project.models.Doctor;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DoctorViewActivity extends AppCompatActivity  {
+public class DoctorViewActivity extends AppCompatActivity implements View.OnClickListener  {
     @Bind(R.id.address) TextView mAddress;
     @Bind(R.id.addressNumber) TextView mAddressNumber;
     @Bind(R.id.name) TextView mName;
@@ -45,14 +45,14 @@ public class DoctorViewActivity extends AppCompatActivity  {
         mPhone.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
         mAddress.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
 
-        mPhoneNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
-                        Uri.parse("tel:" + mDoctor.get(at).getPhone().get(0)));
-                startActivity(phoneIntent);
-            }
-        });
+        mPhoneNumber.setOnClickListener(this);
+        mPhone.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
+                Uri.parse("tel:" + mDoctor.get(at).getPhone().get(0)));
+        startActivity(phoneIntent);
+    }
 }

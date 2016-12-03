@@ -17,47 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/name" />
-
-    <TextView
-        android:text="@string/fa_phone_square"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
-        android:layout_alignRight="@+id/name"
-        android:layout_alignEnd="@+id/name"
-        android:layout_marginTop="190dp"
-        android:id="@+id/phone" />
-
-    <TextView
-        android:text="@string/fa_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/phone"
-        android:layout_alignEnd="@+id/phone"
-        android:id="@+id/address" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/phone"
-        android:layout_toEndOf="@+id/phone"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:id="@+id/phoneNumber"
-        android:layout_alignTop="@+id/phone"
-        android:layout_alignBottom="@+id/phone" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/address"
-        android:layout_alignLeft="@+id/phoneNumber"
-        android:layout_alignStart="@+id/phoneNumber"
-        android:id="@+id/addressNumber" />
+        android:id="@+id/name"
+        android:textSize="18sp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -65,7 +26,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/phoneNumber"
-        android:layout_below="@+id/name">
+        android:layout_below="@+id/name"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,9 +39,53 @@
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="25dp"
                 android:id="@+id/INFO" />
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:text="@string/fa_map_marker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/address"
+        android:elevation="1dp"
+        android:layout_below="@+id/phone"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="19dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addressNumber"
+        android:layout_alignBaseline="@+id/address"
+        android:layout_alignBottom="@+id/address"
+        android:layout_alignLeft="@+id/phoneNumber"
+        android:layout_alignStart="@+id/phoneNumber"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="@string/fa_phone_square"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneNumber"
+        android:textSize="24sp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/phone"
+        android:layout_toEndOf="@+id/phone"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp" />
 
 </RelativeLayout>
