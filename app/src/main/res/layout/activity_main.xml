@@ -16,11 +16,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:textColor="@color/primaryText"
         android:layout_centerHorizontal="true"
-        android:id="@+id/textView2" />
+        android:id="@+id/enter"
+        android:textStyle="normal|bold" />
 
     <Button
-        android:text="Find Doctor"
+        android:text="@string/fa_search"
         android:layout_width="match_parent"
         android:id="@+id/findDoctor"
         android:layout_height="wrap_content"
@@ -28,11 +30,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@color/colorAccent"
-        android:textColor="@color/primaryText"/>
+        android:textColor="@color/primaryText"
+        android:textSize="30sp" />
 
     <ImageView
         app:srcCompat="@drawable/logo"
-        android:id="@+id/imageView2"
+        android:id="@+id/logo"
         android:layout_width="200dp"
         android:layout_height="400dp"
         android:layout_alignParentTop="true"
@@ -48,13 +51,16 @@
         android:layout_marginBottom="14dp"
         android:hint="City"
         android:layout_above="@+id/spinner"
+        android:textColor="@color/primaryText"
         android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/logo"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textColor="@color/primaryText"
+        android:layout_alignParentStart="true"
+        android:textStyle="normal|bold" />
 </RelativeLayout>

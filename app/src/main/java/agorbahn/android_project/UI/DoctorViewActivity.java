@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -25,6 +26,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.phone) TextView mPhone;
     @Bind(R.id.phoneNumber) TextView mPhoneNumber;
     @Bind(R.id.INFO) TextView mINFO;
+    @Bind(R.id.saveButton) Button saveButton;
     private ArrayList<Doctor> mDoctor = new ArrayList<Doctor>();
     int at;
 
@@ -44,6 +46,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
 
         mPhone.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
         mAddress.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
+        saveButton.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
 
         mPhoneNumber.setOnClickListener(this);
         mPhone.setOnClickListener(this);

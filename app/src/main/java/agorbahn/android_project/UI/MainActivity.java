@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import agorbahn.android_project.R;
 
+import agorbahn.android_project.helpers.FontManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 android.R.layout.simple_spinner_item, states);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mState.setAdapter(dataAdapter);
+
+        mButton.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
 
         mButton.setOnClickListener(this);
 
