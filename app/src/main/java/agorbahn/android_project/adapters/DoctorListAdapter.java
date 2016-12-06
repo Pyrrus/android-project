@@ -76,7 +76,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             Log.d("click listener", "working!");
             int itemPosition = getLayoutPosition();
             Intent intent = new Intent(mContext, DoctorViewActivity.class);
-            intent.putExtra("doctor", Parcels.wrap(mDoctors));
+            intent.putExtra("doctor", Parcels.wrap(mDoctors.get(itemPosition)));
             intent.putExtra("at", itemPosition);
             mContext.startActivity(intent);
         }

@@ -27,7 +27,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.phoneNumber) TextView mPhoneNumber;
     @Bind(R.id.INFO) TextView mINFO;
     @Bind(R.id.saveButton) Button saveButton;
-    private ArrayList<Doctor> mDoctor = new ArrayList<Doctor>();
+    private Doctor mDoctor;
     int at;
 
     @Override
@@ -35,14 +35,13 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_view);
         Intent myIntent = getIntent();
-        mDoctor = Parcels.unwrap(getIntent().getParcelableExtra("doctor"));
+        mDoctor =  Parcels.unwrap(getIntent().getParcelableExtra("doctor"));
         ButterKnife.bind(this);
-        at = myIntent.getExtras().getInt("at");
 
-        mName.setText(mDoctor.get(at).getName());
-        mINFO.setText(mDoctor.get(at).getBio());
-        mPhoneNumber.setText( mDoctor.get(at).getPhone().get(0));
-        mAddressNumber.setText(mDoctor.get(at).getStreet() + " " + mDoctor.get(at).getStreet2() + "\n" + mDoctor.get(at).getCity() + ", " + mDoctor.get(at).getState() + ", " + mDoctor.get(at).getZip());
+        mName.setText(mDoctor.getName());
+        mINFO.setText(mDoctor.getBio());
+        mPhoneNumber.setText( mDoctor.getPhone().get(0));
+        mAddressNumber.setText(mDoctor.getStreet() + " " + mDoctor.getStreet2() + "\n" + mDoctor.getCity() + ", " + mDoctor.getState() + ", " + mDoctor.getZip());
 
         mPhone.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
         mAddress.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
@@ -55,7 +54,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         Intent phoneIntent = new Intent(Intent.ACTION_DIAL,
-                Uri.parse("tel:" + mDoctor.get(at).getPhone().get(0)));
+                Uri.parse("tel:" + mDoctor.getPhone().get(0)));
         startActivity(phoneIntent);
     }
 }
