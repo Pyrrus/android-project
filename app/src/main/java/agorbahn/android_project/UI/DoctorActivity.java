@@ -1,16 +1,20 @@
 package agorbahn.android_project.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import agorbahn.android_project.Constants;
 import agorbahn.android_project.R;
 import agorbahn.android_project.adapters.DoctorListAdapter;
 import agorbahn.android_project.models.Doctor;
@@ -23,6 +27,8 @@ import okhttp3.Response;
 
 public class DoctorActivity extends AppCompatActivity {
     public static final String TAG = DoctorActivity.class.getSimpleName();
+    private SharedPreferences mSharedPreferences;
+    private String mLocation;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private DoctorListAdapter mAdapter;
@@ -38,7 +44,13 @@ public class DoctorActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String location = intent.getStringExtra("place");
 
-        getDoctors(location);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mLocation = mSharedPreferences.getString(Constants.PLACE, null);
+        Log.d("Shared Pref Location", mLocation);
+
+        if (mLocation != null) {
+            getDoctors(mLocation);
+        }
     }
 
     private void getDoctors(String location) {

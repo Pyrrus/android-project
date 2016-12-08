@@ -1,8 +1,10 @@
 package agorbahn.android_project.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,12 +14,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import agorbahn.android_project.R;
+import com.google.firebase.auth.FirebaseAuth;
 
+import agorbahn.android_project.Constants;
+import agorbahn.android_project.R;
 import agorbahn.android_project.helpers.FontManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
 
     @Bind(R.id.spinner) Spinner mState;
@@ -25,6 +28,11 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     @Bind(R.id.findDoctor) Button mButton;
     private String[] states;
     private String[] codes;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private String mLocation;
+    private String mplace;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +50,16 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         mButton.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
 
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mLocation = mSharedPreferences.getString(Constants.PLACE, null);
+        mEditor = mSharedPreferences.edit();
         mButton.setOnClickListener(this);
 
+        String user = FirebaseAuth.getInstance()
+                .getCurrentUser()
+                .getDisplayName();
+
+        setTitle("Welcome back " + user);
     }
 
     @Override
@@ -70,22 +86,38 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        if (mLocation != null) {
+            doctorLink();
+        } else {
+            formValidation();
+        }
+    }
+
+    private void formValidation() {
         String output = "";
         if (mEdit.getText().toString().equals("")) {
             output += "Need to add City\n";
         }
-
         if (mState.getSelectedItem().toString().equals("Pick a State")) {
             output += "Need to pick state";
         }
-
         if (output.equals("")) {
-            Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
-            myIntent.putExtra("place", codes[mState.getSelectedItemPosition()].toLowerCase() + "-" + mEdit.getText().toString().toLowerCase());
-            startActivity(myIntent);
+            mplace = codes[mState.getSelectedItemPosition()].toLowerCase() + "-" + mEdit.getText().toString().toLowerCase();
+            addToSharedPreferences(mplace);
+            doctorLink();
         } else {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void doctorLink() {
+        Intent myIntent = new Intent(MainActivity.this, DoctorActivity.class);
+        myIntent.putExtra("place", mplace);
+        startActivity(myIntent);
+    }
+
+    private void addToSharedPreferences(String place) {
+        mEditor.putString(Constants.PLACE, place).apply();
     }
 }
 
