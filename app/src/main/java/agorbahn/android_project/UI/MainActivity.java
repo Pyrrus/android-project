@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 myIntent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(myIntent);
                 return true;
+            case R.id.itemFav:
+                myIntent = new Intent(MainActivity.this, SaveDoctorActivity.class);
+                startActivity(myIntent);
+                return true;
             case R.id.itemLogout:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);

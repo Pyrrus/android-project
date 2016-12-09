@@ -70,8 +70,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
             String uid = user.getUid();
             DatabaseReference restaurantRef = FirebaseDatabase
                     .getInstance()
-                    .getReference(Constants.DOCTOR_SAVE)
-                    .child(uid);
+                    .getReference(Constants.DOCTOR_SAVE).child(uid);
             DatabaseReference pushRef = restaurantRef.push();
             String pushId = pushRef.getKey();
             mDoctor.setPushID(pushId);
@@ -96,6 +95,10 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
                 return true;
             case R.id.itemAbout:
                 myIntent = new Intent(DoctorViewActivity.this, AboutActivity.class);
+                startActivity(myIntent);
+                return true;
+            case R.id.itemFav:
+                myIntent = new Intent(DoctorViewActivity.this, SaveDoctorActivity.class);
                 startActivity(myIntent);
                 return true;
             case R.id.itemLogout:

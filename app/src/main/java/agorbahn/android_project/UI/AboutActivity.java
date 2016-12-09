@@ -44,6 +44,10 @@ public class AboutActivity extends AppCompatActivity {
                 myIntent = new Intent(AboutActivity.this, AboutActivity.class);
                 startActivity(myIntent);
                 return true;
+            case R.id.itemFav:
+                myIntent = new Intent(AboutActivity.this, SaveDoctorActivity.class);
+                startActivity(myIntent);
+                return true;
             case R.id.itemLogout:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(AboutActivity.this, LoginActivity.class);
