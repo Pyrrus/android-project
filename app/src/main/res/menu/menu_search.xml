@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="@string/search">
+    </item>
+
+    <item
+        android:title="Home"
+        android:id="@+id/itemMain"></item>
+    <item
+        android:title="Favorites"
+        android:id="@+id/itemFav"
+        ></item>
+    <item
+        android:title="About"
+        android:id="@+id/itemAbout"
+        ></item>
+    <item
+        android:title="Logout"
+        android:id="@+id/itemLogout"
+        ></item>
+</menu>

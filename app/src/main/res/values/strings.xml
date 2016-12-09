@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="search">Search for Doctor by or-portland</string>
     <string name="app_name">Find Doctors</string>
     <string name="fa_glass">&#xf000;</string>
     <string name="fa_music">&#xf001;</string>
