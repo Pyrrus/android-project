@@ -10,4 +10,5 @@ public class Constants {
     public static final String LOCATION_QUERY_PARAMETER = "location";
     public static final String APIKEY_QUERY_PARAMETER = "user_key";
     public static final String PLACE = "place";
+    public static final String DOCTOR_SAVE = "doctor";
 }
