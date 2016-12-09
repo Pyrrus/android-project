@@ -6,7 +6,15 @@
         android:id="@+id/itemMain"
         optionmenu:showAsAction="ifRoom"></item>
     <item
+        android:title="Favorites"
+        android:id="@+id/itemFav"
+        optionmenu:showAsAction="ifRoom"></item>
+    <item
         android:title="About"
         android:id="@+id/itemAbout"
+        optionmenu:showAsAction="ifRoom"></item>
+    <item
+        android:title="Logout"
+        android:id="@+id/itemLogout"
         optionmenu:showAsAction="ifRoom"></item>
 </menu>

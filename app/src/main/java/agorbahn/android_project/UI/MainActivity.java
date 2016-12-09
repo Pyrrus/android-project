@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private SharedPreferences.Editor mEditor;
     private String mLocation;
     private String mplace;
+    private String mUser;
 
 
     @Override
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         mEditor = mSharedPreferences.edit();
         mButton.setOnClickListener(this);
 
-        String user = FirebaseAuth.getInstance()
+        mUser = FirebaseAuth.getInstance()
                 .getCurrentUser()
                 .getDisplayName();
 
-        setTitle("Welcome back " + user);
+        setTitle("Welcome back " + mUser);
     }
 
     @Override
@@ -79,6 +80,13 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
             case R.id.itemAbout:
                 myIntent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(myIntent);
+                return true;
+            case R.id.itemLogout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,5 +127,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     private void addToSharedPreferences(String place) {
         mEditor.putString(Constants.PLACE, place).apply();
     }
+
 }
 

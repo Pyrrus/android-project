@@ -20,6 +20,7 @@ public class Doctor {
     private String mState;
     private String mZip;
     private String mBio;
+    private String pushID;
 
     public Doctor() {}
 
@@ -79,5 +80,13 @@ public class Doctor {
 
     public String getBio() {
         return mBio;
+    }
+
+    public String getPushID() {
+        return pushID;
+    }
+
+    public void setPushID(String pushID) {
+        this.pushID = pushID;
     }
 }

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -100,6 +102,13 @@ public class DoctorActivity extends AppCompatActivity {
             case R.id.itemAbout:
                 myIntent = new Intent(DoctorActivity.this, AboutActivity.class);
                 startActivity(myIntent);
+                return true;
+            case R.id.itemLogout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(DoctorActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
