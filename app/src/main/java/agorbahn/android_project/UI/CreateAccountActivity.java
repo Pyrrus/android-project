@@ -74,6 +74,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+//            test
             finish();
         }
 
