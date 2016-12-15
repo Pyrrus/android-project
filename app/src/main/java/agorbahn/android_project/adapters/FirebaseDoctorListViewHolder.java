@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,18 +28,75 @@ import agorbahn.android_project.ui.DoctorViewActivity;
  * Created by Adam on 12/9/2016.
  */
 
-public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder {
     private static final int MAX_WIDTH = 200;
     private static final int MAX_HEIGHT = 200;
 
     View mView;
     Context mContext;
+    private DatabaseReference mRef;
 
     public FirebaseDoctorListViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
+        itemView.setOnTouchListener(new onTouchListenerTool(mContext) {
+
+            public void onClick(){
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                final ArrayList<Doctor> doctor = new ArrayList<>();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            doctor.add(snapshot.getValue(Doctor.class));
+                        }
+
+                        int itemPosition = getLayoutPosition();
+                        Intent intent = new Intent(mContext, DoctorViewActivity.class);
+                        intent.putExtra("doctor", Parcels.wrap(doctor.get(itemPosition)));
+
+                        mContext.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+
+            public void onDoubleClick() {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String uid = user.getUid();
+                final ArrayList<Doctor> doctor = new ArrayList<>();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
+                mRef = ref.getRef();
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            doctor.add(snapshot.getValue(Doctor.class));
+                        }
+
+                        int itemPosition = getLayoutPosition();
+                        mRef.child(doctor.get(itemPosition).getPushID()).removeValue();
+
+                        Toast.makeText(mContext, "Remove", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        });
+
+
     }
 
     public void bindRestaurant(Doctor doc) {
@@ -47,33 +105,5 @@ public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder implem
 
         nameTextView.setText(doc.getName());
         categoryTextView.setText(doc.getSpecialty());
-    }
-
-    @Override
-    public void onClick(View view) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        final ArrayList<Doctor> doctor = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    doctor.add(snapshot.getValue(Doctor.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, DoctorViewActivity.class);
-                intent.putExtra("doctor", Parcels.wrap(doctor.get(itemPosition)));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
     }
 }
