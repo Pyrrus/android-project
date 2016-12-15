@@ -23,6 +23,7 @@ import agorbahn.android_project.Constants;
 import agorbahn.android_project.R;
 import agorbahn.android_project.models.Doctor;
 import agorbahn.android_project.ui.DoctorViewActivity;
+import butterknife.Bind;
 
 /**
  * Created by Adam on 12/9/2016.
@@ -35,18 +36,25 @@ public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder {
     View mView;
     Context mContext;
     private DatabaseReference mRef;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = user.getUid();
+    final ArrayList<Doctor> doctor = new ArrayList<>();
+    DatabaseReference ref;
+
+    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.empty_view) TextView mEmpty;
 
     public FirebaseDoctorListViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
+        
+       ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
+
         itemView.setOnTouchListener(new onTouchListenerTool(mContext) {
 
             public void onClick(){
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = user.getUid();
-                final ArrayList<Doctor> doctor = new ArrayList<>();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
+
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
@@ -69,10 +77,6 @@ public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder {
             }
 
             public void onDoubleClick() {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String uid = user.getUid();
-                final ArrayList<Doctor> doctor = new ArrayList<>();
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
                 mRef = ref.getRef();
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -95,15 +99,17 @@ public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder {
 
             }
         });
-
-
     }
 
-    public void bindRestaurant(Doctor doc) {
+    public void bindDoctor(Doctor doc) {
         TextView nameTextView = (TextView) mView.findViewById(R.id.docName);
         TextView categoryTextView = (TextView) mView.findViewById(R.id.docInfo);
 
         nameTextView.setText(doc.getName());
         categoryTextView.setText(doc.getSpecialty());
+    }
+
+    public ArrayList<Doctor> getDoctor() {
+        return doctor;
     }
 }

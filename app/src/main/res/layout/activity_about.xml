@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="This app made for help people to find the doctor. you can add and remove doctor."
+        android:text="This app made for help people to find the doctor. Also, you can add and remove doctor."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/about"

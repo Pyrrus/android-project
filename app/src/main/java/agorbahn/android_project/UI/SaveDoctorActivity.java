@@ -7,12 +7,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import agorbahn.android_project.Constants;
 import agorbahn.android_project.R;
@@ -26,6 +30,10 @@ public class SaveDoctorActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter mFirebaseAdapter;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.empty_view) TextView mEmpty;
+    int mGone;
+    int mShow;
+    public ArrayList<Doctor> mDoctor = new ArrayList<>();
 
     public static final String TAG = SaveDoctorActivity.class.getSimpleName();
 
@@ -37,6 +45,8 @@ public class SaveDoctorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doctor);
 
         ButterKnife.bind(this);
+        mGone = View.GONE;
+        mShow = View.VISIBLE;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
@@ -44,6 +54,7 @@ public class SaveDoctorActivity extends AppCompatActivity {
         mDoctorReference = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
         setUpFirebaseAdapter();
     }
+
 
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Doctor, FirebaseDoctorListViewHolder>
@@ -53,12 +64,18 @@ public class SaveDoctorActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FirebaseDoctorListViewHolder viewHolder,
                                               Doctor model, int position) {
-                viewHolder.bindRestaurant(model);
+
+                mDoctor.add(model);
+                viewHolder.bindDoctor(model);
             }
         };
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+
+
+
     }
 
     @Override
@@ -99,4 +116,5 @@ public class SaveDoctorActivity extends AppCompatActivity {
         super.onDestroy();
         mFirebaseAdapter.cleanup();
     }
+
 }

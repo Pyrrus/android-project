@@ -2,6 +2,7 @@ package agorbahn.android_project.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -13,7 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.Thing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
@@ -37,7 +42,10 @@ public class DoctorActivity extends AppCompatActivity {
     private SharedPreferences.Editor mEditor;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
+    @Bind(R.id.empty_view) TextView mEmpty;
     private DoctorListAdapter mAdapter;
+    int mGone;
+    int mShow;
 
     public ArrayList<Doctor> mDoctor = new ArrayList<>();
 
@@ -46,7 +54,8 @@ public class DoctorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
         ButterKnife.bind(this);
-
+        mGone = View.GONE;
+        mShow = View.VISIBLE;
         Intent intent = getIntent();
         String location = intent.getStringExtra("place");
 
@@ -83,6 +92,15 @@ public class DoctorActivity extends AppCompatActivity {
                                 new LinearLayoutManager(DoctorActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
+
+                        if (mDoctor.isEmpty()) {
+                            mRecyclerView.setVisibility(mGone);
+                            mEmpty.setVisibility(mShow);
+                            mEmpty.setText("Not found any doctor at " + mLocation);
+                        } else {
+                            mRecyclerView.setVisibility(mShow);
+                            mEmpty.setVisibility(mGone);
+                        }
                     }
                 });
             }
@@ -128,7 +146,7 @@ public class DoctorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.itemMain:
                 myIntent = new Intent(DoctorActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -150,6 +168,22 @@ public class DoctorActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Doctor Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
     }
 
 }
