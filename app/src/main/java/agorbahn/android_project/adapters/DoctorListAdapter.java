@@ -5,16 +5,23 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import agorbahn.android_project.Constants;
 import agorbahn.android_project.R;
 import agorbahn.android_project.models.Doctor;
 import agorbahn.android_project.ui.DoctorViewActivity;
@@ -52,7 +59,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
         return mDoctors.size();
     }
 
-    public class DoctorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class DoctorViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.docName) TextView mName;
         @Bind(R.id.docInfo) TextView mDocInfo;
         private Context mContext;
@@ -63,7 +70,29 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
 
-            itemView.setOnClickListener(this);
+            itemView.setOnTouchListener(new onTouchListenerTool(mContext) {
+
+                public void onClick(){
+                    int itemPosition = getAdapterPosition();
+                    Intent intent = new Intent(mContext, DoctorViewActivity.class);
+                    intent.putExtra("doctor", Parcels.wrap(mDoctors.get(itemPosition)));
+                    mContext.startActivity(intent);
+                }
+
+                public void onLongClick() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid = user.getUid();
+                    DatabaseReference doctorRef = FirebaseDatabase
+                            .getInstance()
+                            .getReference(Constants.DOCTOR_SAVE).child(uid);
+                    DatabaseReference pushRef = doctorRef.push();
+                    String pushId = pushRef.getKey();
+                    int itemPosition = getAdapterPosition();
+                    mDoctors.get(itemPosition).setPushID(pushId);
+                    pushRef.setValue(mDoctors.get(itemPosition));
+                    Toast.makeText(mContext, "Saved", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         public void bindDoctors(Doctor doctor) {
@@ -71,14 +100,5 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Do
             mDocInfo.setText(doctor.getSpecialty());
         }
 
-        @Override
-        public void onClick(View v) {
-            Log.d("click listener", "working!");
-            int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, DoctorViewActivity.class);
-            intent.putExtra("doctor", Parcels.wrap(mDoctors.get(itemPosition)));
-            intent.putExtra("at", itemPosition);
-            mContext.startActivity(intent);
-        }
     }
 }
