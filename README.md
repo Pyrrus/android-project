@@ -67,11 +67,19 @@ user input                       | output
 -------------------------------- | -------------
 touch 'Don't have an account? Sign up here!' | this will go to the Create Account Activity.
 
+Have landscape mode when the device on the horizontal.
+
 #### 'Create Account' Activity 
 
 user input                       | output
 -------------------------------- | -------------
 input both user email, name, and passwords | this will go to the home Activity.
+
+user input                       | output
+-------------------------------- | -------------
+touch 'Already have an account? Log in here!' | this will go to the Login Activity.
+
+Have landscape mode when the device on the horizontal.
 
 #### 'doctor' Activity 
 
