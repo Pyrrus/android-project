@@ -48,7 +48,7 @@ public class FirebaseDoctorListViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        
+
        ref = FirebaseDatabase.getInstance().getReference(Constants.DOCTOR_SAVE).child(uid);
 
         itemView.setOnTouchListener(new onTouchListenerTool(mContext) {

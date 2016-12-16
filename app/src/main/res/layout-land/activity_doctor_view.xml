@@ -16,8 +16,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        android:padding="16dp" >
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/addressNumber"
+        android:layout_alignStart="@+id/addressNumber">
 
         <TextView
             android:text="Name"
@@ -71,56 +74,6 @@
             android:background="#000"
             />
 
-        <TextView
-            android:text="@string/fa_map_marker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/address"
-            android:textColor="@color/icons"
-            android:elevation="1dp"
-            android:layout_below="@+id/phone"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="19dp"
-            android:textSize="24sp" />
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addressNumber"
-            android:textColor="@color/primaryText"
-            android:layout_alignBaseline="@+id/address"
-            android:layout_alignBottom="@+id/address"
-            android:layout_alignLeft="@+id/phoneNumber"
-            android:layout_alignStart="@+id/phoneNumber"
-            android:textSize="24sp" />
-
-        <TextView
-            android:text="@string/fa_phone_square"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/phone"
-            android:textColor="@color/icons"
-            android:textSize="24sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/phoneNumber"
-            android:textSize="24sp"
-            android:textColor="@color/primaryText"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/phone"
-            android:layout_toEndOf="@+id/phone"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="14dp" />
-
         <Button
             android:text="@string/fa_heart"
             android:layout_width="match_parent"
@@ -132,6 +85,60 @@
             android:textColor="@color/primaryText"
             android:textSize="30sp"
             android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="@string/fa_map_marker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            android:textColor="@color/icons"
+            android:elevation="1dp"
+            android:textSize="24sp"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_above="@+id/saveButton"
+            android:layout_toLeftOf="@+id/addressNumber"
+            android:layout_toStartOf="@+id/addressNumber"
+            android:layout_marginBottom="19dp" />
+
+        <TextView
+            android:text="@string/fa_phone_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone"
+            android:textColor="@color/icons"
+            android:textSize="24sp"
+            android:layout_alignBaseline="@+id/address"
+            android:layout_alignBottom="@+id/address"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phoneNumber"
+            android:textSize="24sp"
+            android:textColor="@color/primaryText"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_alignBaseline="@+id/phone"
+            android:layout_alignBottom="@+id/phone"
+            android:layout_toRightOf="@+id/phone"
+            android:layout_toEndOf="@+id/phone" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressNumber"
+            android:textColor="@color/primaryText"
+            android:textSize="18sp"
+            android:layout_marginRight="69dp"
+            android:layout_marginEnd="69dp"
+            android:layout_below="@+id/scroll"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
