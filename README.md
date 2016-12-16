@@ -1,6 +1,6 @@
 # Android project using Android, XML, and Java
 
-## This verson using betterdoctor api using city and state and firebase database  12/2/16
+## This verson using betterdoctor api using city and state and firebase database  12/16/16
 
 #### By **Adam Gorbahn**
 
