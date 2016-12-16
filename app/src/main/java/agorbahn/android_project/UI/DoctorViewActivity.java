@@ -1,8 +1,10 @@
 package agorbahn.android_project.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,8 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.saveButton) Button saveButton;
     private Doctor mDoctor;
     int at;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,8 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
         Intent myIntent = getIntent();
         mDoctor =  Parcels.unwrap(getIntent().getParcelableExtra("doctor"));
         ButterKnife.bind(this);
-
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
         mName.setText(mDoctor.getName());
         mINFO.setText(mDoctor.getBio());
         mPhoneNumber.setText( mDoctor.getPhone().get(0));
@@ -91,6 +96,7 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
         switch (item.getItemId()){
             case R.id.itemMain:
                 myIntent = new Intent(DoctorViewActivity.this, MainActivity.class);
+                addToSharedPreferences("");
                 startActivity(myIntent);
                 return true;
             case R.id.itemAbout:
@@ -110,5 +116,9 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addToSharedPreferences(String place) {
+        mEditor.putString(Constants.PLACE, place).apply();
     }
 }

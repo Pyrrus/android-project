@@ -1,6 +1,8 @@
 package agorbahn.android_project.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,16 +12,21 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import agorbahn.android_project.Constants;
 import agorbahn.android_project.R;
 
 public class AboutActivity extends AppCompatActivity {
     private ArrayList<String> mDoctor = new ArrayList<String>();
     private ArrayList<String> mDoctorInfo = new ArrayList<String>();
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
 
         Intent myIntent = getIntent();
         mDoctor = myIntent.getStringArrayListExtra("doctorList");
@@ -38,6 +45,7 @@ public class AboutActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.itemMain:
                 myIntent = new Intent(AboutActivity.this, MainActivity.class);
+                addToSharedPreferences("");
                 startActivity(myIntent);
                 return true;
             case R.id.itemAbout:
@@ -57,5 +65,9 @@ public class AboutActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addToSharedPreferences(String place) {
+        mEditor.putString(Constants.PLACE, place).apply();
     }
 }

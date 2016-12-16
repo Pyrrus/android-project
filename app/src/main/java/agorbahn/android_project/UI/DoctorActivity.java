@@ -2,7 +2,6 @@ package agorbahn.android_project.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.MenuItemCompat;
@@ -17,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
@@ -41,8 +38,10 @@ public class DoctorActivity extends AppCompatActivity {
     private String mLocation;
     private SharedPreferences.Editor mEditor;
 
-    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
-    @Bind(R.id.empty_view) TextView mEmpty;
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    @Bind(R.id.empty_view)
+    TextView mEmpty;
     private DoctorListAdapter mAdapter;
     int mGone;
     int mShow;
@@ -62,6 +61,8 @@ public class DoctorActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mLocation = mSharedPreferences.getString(Constants.PLACE, null);
         Log.d("Shared Pref Location", mLocation);
+
+        setTitle("Search by specialty");
 
         if (mLocation != null) {
             getDoctors(mLocation);
@@ -107,6 +108,45 @@ public class DoctorActivity extends AppCompatActivity {
         });
     }
 
+    private void getDoctorSpecialty(final String specialty) {
+        final DoctorServices doctorservices = new DoctorServices();
+
+        doctorservices.findDoctors(mLocation, specialty, new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                mDoctor = doctorservices.processResults(response);
+
+                DoctorActivity.this.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mAdapter = new DoctorListAdapter(getApplicationContext(), mDoctor);
+                        mRecyclerView.setAdapter(mAdapter);
+                        RecyclerView.LayoutManager layoutManager =
+                                new LinearLayoutManager(DoctorActivity.this);
+                        mRecyclerView.setLayoutManager(layoutManager);
+                        mRecyclerView.setHasFixedSize(true);
+
+                        if (mDoctor.isEmpty()) {
+                            mRecyclerView.setVisibility(mGone);
+                            mEmpty.setVisibility(mShow);
+                            mEmpty.setText("Not found any doctor for " + specialty);
+                        } else {
+                            mRecyclerView.setVisibility(mShow);
+                            mEmpty.setVisibility(mGone);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -125,7 +165,7 @@ public class DoctorActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 query = query.toLowerCase();
                 addToSharedPreferences(query);
-                getDoctors(query);
+                getDoctorSpecialty(query);
                 return false;
             }
 
@@ -149,6 +189,7 @@ public class DoctorActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.itemMain:
                 myIntent = new Intent(DoctorActivity.this, MainActivity.class);
+                addToSharedPreferences("");
                 startActivity(myIntent);
                 return true;
             case R.id.itemAbout:
@@ -168,22 +209,6 @@ public class DoctorActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Doctor Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
     }
 
 }

@@ -1,7 +1,9 @@
 package agorbahn.android_project.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +30,8 @@ import butterknife.ButterKnife;
 public class SaveDoctorActivity extends AppCompatActivity {
     private DatabaseReference mDoctorReference;
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     @Bind(R.id.empty_view) TextView mEmpty;
@@ -42,6 +46,8 @@ public class SaveDoctorActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
         setContentView(R.layout.activity_doctor);
 
         ButterKnife.bind(this);
@@ -73,9 +79,6 @@ public class SaveDoctorActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
-
-
-
     }
 
     @Override
@@ -90,6 +93,7 @@ public class SaveDoctorActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.itemMain:
                 myIntent = new Intent(SaveDoctorActivity.this, MainActivity.class);
+                addToSharedPreferences("");
                 startActivity(myIntent);
                 return true;
             case R.id.itemAbout:
@@ -117,4 +121,7 @@ public class SaveDoctorActivity extends AppCompatActivity {
         mFirebaseAdapter.cleanup();
     }
 
+    private void addToSharedPreferences(String place) {
+        mEditor.putString(Constants.PLACE, place).apply();
+    }
 }
