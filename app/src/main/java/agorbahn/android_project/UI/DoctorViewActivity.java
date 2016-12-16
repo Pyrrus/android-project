@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
@@ -39,6 +42,9 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     int at;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    private FirebaseUser user;
+    private String uid;
+    private  DatabaseReference doctorRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +60,28 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
         mPhoneNumber.setText( mDoctor.getPhone().get(0));
         mAddressNumber.setText(mDoctor.getStreet() + " " + mDoctor.getStreet2() + "\n" + mDoctor.getCity() + ", " + mDoctor.getState() + ", " + mDoctor.getZip());
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        doctorRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.DOCTOR_SAVE).child(uid);
+
         mPhone.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
         mAddress.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
         saveButton.setTypeface(FontManager.getTypeface(this,"fontawesome-webfont.ttf"));
 
+        doctorRef.orderByChild("name").equalTo(mDoctor.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    saveButton.setText(R.string.fa_heart_o);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mPhoneNumber.setOnClickListener(this);
         mPhone.setOnClickListener(this);
         saveButton.setOnClickListener(this);
@@ -71,25 +95,30 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
             startActivity(phoneIntent);
         }
         if (v == saveButton) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-            DatabaseReference doctorRef = FirebaseDatabase
-                    .getInstance()
-                    .getReference(Constants.DOCTOR_SAVE).child(uid);
-            if (mDoctor.getPushID() == null) {
-                DatabaseReference pushRef = doctorRef.push();
-                String pushId = pushRef.getKey();
-                mDoctor.setPushID(pushId);
-                pushRef.setValue(mDoctor);
-                saveButton.setText(R.string.fa_heart_o);
-                Toast.makeText(DoctorViewActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-            } else {
-                DatabaseReference Ref = doctorRef.getRef();
-                Ref.child(mDoctor.getPushID()).removeValue();
-                mDoctor.setPushID(null);
-                saveButton.setText(R.string.fa_heart);
-                Toast.makeText(DoctorViewActivity.this, "Remove", Toast.LENGTH_SHORT).show();
-            }
+
+            doctorRef.orderByChild("name").equalTo(mDoctor.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.getValue() != null) {
+                        DatabaseReference Ref = doctorRef.getRef();
+                        Ref.child(mDoctor.getPushID()).removeValue();
+                        mDoctor.setPushID(null);
+                        saveButton.setText(R.string.fa_heart);
+                        Toast.makeText(DoctorViewActivity.this, "Remove", Toast.LENGTH_SHORT).show();
+                    } else {
+                        DatabaseReference pushRef = doctorRef.push();
+                        String pushId = pushRef.getKey();
+                        mDoctor.setPushID(pushId);
+                        pushRef.setValue(mDoctor);
+                        saveButton.setText(R.string.fa_heart_o);
+                        Toast.makeText(DoctorViewActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
