@@ -73,14 +73,23 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
         if (v == saveButton) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             String uid = user.getUid();
-            DatabaseReference restaurantRef = FirebaseDatabase
+            DatabaseReference doctorRef = FirebaseDatabase
                     .getInstance()
                     .getReference(Constants.DOCTOR_SAVE).child(uid);
-            DatabaseReference pushRef = restaurantRef.push();
-            String pushId = pushRef.getKey();
-            mDoctor.setPushID(pushId);
-            pushRef.setValue(mDoctor);
-            Toast.makeText(DoctorViewActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+            if (mDoctor.getPushID() == null) {
+                DatabaseReference pushRef = doctorRef.push();
+                String pushId = pushRef.getKey();
+                mDoctor.setPushID(pushId);
+                pushRef.setValue(mDoctor);
+                saveButton.setText(R.string.fa_heart_o);
+                Toast.makeText(DoctorViewActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+            } else {
+                DatabaseReference Ref = doctorRef.getRef();
+                Ref.child(mDoctor.getPushID()).removeValue();
+                mDoctor.setPushID(null);
+                saveButton.setText(R.string.fa_heart);
+                Toast.makeText(DoctorViewActivity.this, "Remove", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

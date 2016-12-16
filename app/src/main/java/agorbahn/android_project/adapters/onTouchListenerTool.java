@@ -1,16 +1,10 @@
 package agorbahn.android_project.adapters;
 
-/**
- * Created by Guest on 12/14/16.
- */
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Guest on 12/12/16.
- */
 public class onTouchListenerTool implements View.OnTouchListener {
     private final GestureDetector gestureDetector;
 

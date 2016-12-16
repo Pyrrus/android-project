@@ -5,7 +5,7 @@
 #### By **Adam Gorbahn**
 
 ## Description
-This app made with api call, and using new views like recyclerview. Also, add database call firebase to save data from the user.
+This app made with api call, and using new views like recyclerview. Also, add database call firebase to save data from the user. Lastly, add GestureDetector to have it more user interaction with the app.
 
 ## Specifications
 
@@ -55,6 +55,8 @@ user input                       | output
 -------------------------------- | -------------
 input city name, and pick the state | this will go to the doctor Activity. 
 
+Have landscape mode when the device on the horizontal. 
+
 #### 'login' Activity 
 
 user input                       | output
@@ -77,11 +79,32 @@ user input                       | output
 -------------------------------- | -------------
 click on doctor information getting information from API  | this will go to the doctor view Activity. 
 
+user input                       | output
+-------------------------------- | -------------
+clicked and held the doctor information  | this will save it to the your favorite doctor. 
+
+#### 'favorite' Activity 
+
+user input                       | output
+-------------------------------- | -------------
+click on doctor information getting information from database  | this will go to the doctor view Activity. 
+
+user input                       | output
+-------------------------------- | -------------
+double clicked doctor information  | this will remove it from favorite doctor. 
+
+
 #### 'doctor view' Activity 
 
 user input                       | output
 -------------------------------- | -------------
 click on phone number  | this will go outside of the app. then call new app which is phone app. 
+
+user input                       | output
+-------------------------------- | -------------
+click on button  | this will save it to the your favorite doctor.
+
+Have landscape mode when the device on the horizontal.
 
 ## Bugs
 * if using Android 2.1. It will not work. (Look in Setup)
