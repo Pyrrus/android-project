@@ -21,7 +21,9 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="This app made for help people to find the doctor. Also, you can add and remove doctor."
+        android:text="This app made for help people to find the doctor. Also, you can add and remove doctor.\n
+        \nWhen you are searching doctor you can touch and hold to save it in your favorite.
+        \n\nWhen you are in your favorite doctor you can double tap to remove the doctor."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/about"

@@ -39,7 +39,6 @@ public class DoctorViewActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.INFO) TextView mINFO;
     @Bind(R.id.saveButton) Button saveButton;
     private Doctor mDoctor;
-    int at;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private FirebaseUser user;

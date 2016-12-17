@@ -62,7 +62,7 @@ public class DoctorActivity extends AppCompatActivity {
         mLocation = mSharedPreferences.getString(Constants.PLACE, null);
         Log.d("Shared Pref Location", mLocation);
 
-        setTitle("Search by specialty");
+        setTitle("Search by Skill(s) like tooth");
 
         if (mLocation != null) {
             getDoctors(mLocation);

@@ -11,5 +11,5 @@ public class Constants {
     public static final String APIKEY_QUERY_PARAMETER = "user_key";
     public static final String PLACE = "place";
     public static final String DOCTOR_SAVE = "doctor";
-    public static final String DORTOR_SKILL = "specialty_uid";
+    public static final String DORTOR_SKILL = "query";
 }
